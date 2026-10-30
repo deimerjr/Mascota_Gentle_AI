@@ -26,6 +26,12 @@ El shell trae cuatro presets embebidos (arte y animaciones incluidos):
 Pasa el cursor sobre la mascota y pulsa **🎭** para cambiar. La elección se
 guarda en `localStorage` (`dsh.mascot.preset.v2`) y se conserva al reiniciar.
 
+### Gato original en acción
+
+![Gato original recorriendo estados](docs/gato-original.gif)
+
+GIF grabado desde el renderer real con `node desktop/tools/record-gif.mjs`.
+
 ## Arquitectura
 
 ```
