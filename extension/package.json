@@ -1,6 +1,6 @@
 {
   "name": "pi-session-mascot",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Desktop session mascot for pi and gentle-shell: a transparent overlay driven by the session activity.",
   "type": "module",
   "license": "MIT",

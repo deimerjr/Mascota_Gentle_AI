@@ -15,6 +15,17 @@ La interfaz es web (React + CSS + sprites) y corre en una ventana **transparente
 
 No hay dos plugins: gentle-shell arranca pi con otro `PI_CODING_AGENT_DIR`, así que se instala el mismo paquete en cada home. La app de escritorio es compartida.
 
+## Mascotas incluidas
+
+El shell trae cuatro presets embebidos (arte y animaciones incluidos):
+
+| Gatita Kimono (por defecto) | Gato original | Majin Buu | Neko |
+| --- | --- | --- | --- |
+| ![Gatita Kimono](docs/preset-kimono.png) | ![Gato original](docs/preset-gato.png) | ![Majin Buu](docs/preset-majin.png) | ![Neko](docs/preset-neko.png) |
+
+Pasa el cursor sobre la mascota y pulsa **🎭** para cambiar. La elección se
+guarda en `localStorage` (`dsh.mascot.preset.v2`) y se conserva al reiniciar.
+
 ## Arquitectura
 
 ```
@@ -40,11 +51,11 @@ desktop/ (Electron)
    powershell -ExecutionPolicy Bypass -File extension\install.ps1
    ```
 
-   Sin clonar, descarga `pi-session-mascot-0.1.1.tgz` del Release, descomprímelo
+   Sin clonar, descarga `pi-session-mascot-0.1.2.tgz` del Release, descomprímelo
    e instálalo como paquete pi:
 
    ```powershell
-   tar -xzf pi-session-mascot-0.1.1.tgz
+   tar -xzf pi-session-mascot-0.1.2.tgz
    pi install ./package
    ```
 
@@ -53,7 +64,7 @@ desktop/ (Electron)
    `session-mascot.json`:
 
    ```json
-   { "shellExe": "C:\\ruta\\SessionMascot-portable-0.1.1.exe" }
+   { "shellExe": "C:\\ruta\\SessionMascot-portable-0.1.2.exe" }
    ```
 
 3. Reinicia pi/gentle-shell: la mascota se abre sola en sesiones interactivas.

@@ -82,6 +82,10 @@
   }
 
   function overMascot(x, y) {
+    // El menú de presets y otras partes pueden sobresalir del rectángulo de la
+    // mascota; elementFromPoint decide mejor que el bounding box.
+    var element = document.elementFromPoint(x, y);
+    if (element && element.closest && element.closest('.dsh-mascot')) return true;
     var node = document.querySelector('.dsh-mascot');
     if (!node) return false;
     var rect = node.getBoundingClientRect();

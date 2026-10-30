@@ -10,6 +10,8 @@
 - **React 18 UMD** en `desktop/vendor/`: MIT, con sus licencias originales
   (`LICENSE.react`, `LICENSE.react-dom`).
 - **Icono** `desktop/assets/icon.png`: mismo criterio que el arte.
+- **Presets embebidos**: Gatita Kimono, Gato original, Majin Buu y Neko. Todo
+  ese arte viaja dentro de `desktop/ui/mascot-client.js`.
 
 ## Procedencia
 

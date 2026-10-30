@@ -1,6 +1,6 @@
 {
   "name": "session-mascot",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Desktop session mascot for pi and gentle-shell",
   "license": "MIT",

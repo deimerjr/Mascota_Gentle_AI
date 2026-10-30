@@ -44,6 +44,8 @@ También puedes ejecutarlo desde la extensión: si el pipe no existe y
 ## Uso
 
 - **Arrastrar** para mover; **rueda** para redimensionar (55 %–190 %); **doble clic** para restablecer.
+- **🎭** (arriba a la derecha, al pasar el cursor) cambia entre Gatita Kimono,
+  Gato original, Majin Buu y Neko. La elección se guarda en `localStorage`.
 - La ventana es click-through fuera de la mascota.
 - **Bandeja**: mostrar/ocultar, restablecer, salir.
 - Posición/tamaño los persiste la extensión en `<home>/session-mascot.json`;

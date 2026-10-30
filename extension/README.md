@@ -20,7 +20,7 @@ pi --extension ./extension/extensions/session-mascot.ts
 pi install ./extension
 
 # opción D: desde el .tgz del Release (sin clonar)
-tar -xzf pi-session-mascot-0.1.1.tgz
+tar -xzf pi-session-mascot-0.1.2.tgz
 pi install ./package
 ```
 

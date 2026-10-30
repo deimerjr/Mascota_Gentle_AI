@@ -133,6 +133,47 @@ const afterReset = await page.evaluate(() => {
 console.log('[ui] reset layout=' + JSON.stringify(afterReset));
 if (!afterReset || afterReset.scale !== 1 || afterReset.x !== 24) throw new Error('el reset no restauró el layout: ' + JSON.stringify(afterReset));
 
+// selector de mascotas: cambiar al gato original
+await page.evaluate(() => window.localStorage.removeItem('dsh.mascot.preset.v2'));
+await page.reload();
+await page.waitForFunction(() => window.__mascotMounted === true, null, { timeout: 15000 });
+await page.waitForTimeout(1100);
+await page.addStyleTag({ content: 'html,body{background:radial-gradient(circle at 30% 20%, #2b2f3a, #14161b 70%) !important;}' });
+const presetButton = await page.$('.dsh-mascot-preset');
+if (!presetButton) throw new Error('no se encontró el selector de mascotas');
+await presetButton.click();
+await page.waitForSelector('.dsh-mascot-preset-menu');
+const items = await page.$$eval('.dsh-mascot-preset-item', (nodes) => nodes.map((node) => node.textContent));
+console.log('[ui] presets: ' + JSON.stringify(items));
+if (!items.includes('Gato original')) throw new Error('falta el preset Gato original: ' + JSON.stringify(items));
+const item = await page.$('.dsh-mascot-preset-item:has-text("Gato original")');
+if (!item) throw new Error('no se encontró el item Gato original');
+await item.click();
+await page.waitForTimeout(400);
+const presetState = await page.evaluate(() => ({
+  stored: window.localStorage.getItem('dsh.mascot.preset.v2'),
+  phase: document.querySelector('.dsh-mascot')?.getAttribute('data-phase'),
+}));
+console.log('[ui] preset gato original: ' + JSON.stringify(presetState));
+if (presetState.stored !== '1') throw new Error('no se guardó el preset Gato original: ' + presetState.stored);
+const presetBox = await (await page.$('.dsh-mascot')).boundingBox();
+await page.screenshot({ path: path.join(ARTIFACTS, 'docs-gato-original.png'), clip: { x: presetBox.x - 20, y: presetBox.y - 20, width: presetBox.width + 40, height: presetBox.height + 40 } });
+
+// capturas de los cuatro presets para docs/
+const presets = ['kimono', 'gato', 'majin', 'neko'];
+for (let index = 0; index < presets.length; index += 1) {
+  await page.evaluate((value) => window.localStorage.setItem('dsh.mascot.preset.v2', String(value)), index);
+  await page.reload();
+  await page.waitForFunction(() => window.__mascotMounted === true, null, { timeout: 15000 });
+  await page.waitForTimeout(1100);
+  await page.addStyleTag({ content: 'html,body{background:radial-gradient(circle at 30% 20%, #2b2f3a, #14161b 70%) !important;}' });
+  const shot = await page.$('.dsh-mascot');
+  if (!shot) throw new Error('sin mascota para preset ' + presets[index]);
+  const shotBox = await shot.boundingBox();
+  await page.screenshot({ path: path.join(ARTIFACTS, 'preset-' + presets[index] + '.png'), clip: { x: shotBox.x - 20, y: shotBox.y - 20, width: shotBox.width + 40, height: shotBox.height + 40 } });
+}
+console.log('[ui] capturas de presets: ' + presets.join(', '));
+
 const phases = await page.evaluate(() => document.querySelectorAll('.dsh-mascot').length);
 if (phases !== 1) throw new Error('se clonó la mascota: ' + phases);
 
