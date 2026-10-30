@@ -34,10 +34,18 @@ desktop/ (Electron)
 
 1. Descarga el instalador o el portable desde
    [Releases](https://github.com/deimerjr/session-mascot/releases).
-2. Instala la extensión en pi/gentle-shell (desde el clon del repo):
+2. Instala la extensión. Desde el clon del repo:
 
    ```powershell
    powershell -ExecutionPolicy Bypass -File extension\install.ps1
+   ```
+
+   Sin clonar, descarga `pi-session-mascot-0.1.0.tgz` del Release, descomprímelo
+   e instálalo como paquete pi:
+
+   ```powershell
+   tar -xzf pi-session-mascot-0.1.0.tgz
+   pi install ./package
    ```
 
    El instalador deja la app en `%LOCALAPPDATA%\Programs\Session Mascot`, que la

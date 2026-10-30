@@ -18,6 +18,10 @@ pi --extension ./extension/extensions/session-mascot.ts
 
 # opción C: instalarla como paquete pi en el home actual
 pi install ./extension
+
+# opción D: desde el .tgz del Release (sin clonar)
+tar -xzf pi-session-mascot-0.1.0.tgz
+pi install ./package
 ```
 
 La opción C deja la extensión enlazada al repo; necesitas el shell de escritorio

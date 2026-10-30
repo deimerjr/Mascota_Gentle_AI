@@ -23,11 +23,13 @@ jobs:
         run: npm ci
       - name: Generar renderer y empaquetar
         run: npm run dist
+      - name: Empaquetar extensión
+        run: npm pack ./extension --pack-destination dist
       - name: Checksums
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force dist | Out-Null
-          Get-ChildItem dist -Filter *.exe | ForEach-Object {
+          Get-ChildItem dist -File | Where-Object { $_.Extension -in '.exe', '.tgz' } | ForEach-Object {
             "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash)  $($_.Name)"
           } | Set-Content dist/SHA256SUMS.txt
           Get-ChildItem dist | Select-Object Name, Length
@@ -36,6 +38,7 @@ jobs:
           name: session-mascot-windows
           path: |
             dist/*.exe
+            dist/*.tgz
             dist/SHA256SUMS.txt
       - name: Publicar release
         if: startsWith(github.ref, 'refs/tags/v')
@@ -43,6 +46,7 @@ jobs:
         with:
           files: |
             dist/*.exe
+            dist/*.tgz
             dist/SHA256SUMS.txt
           generate_release_notes: true
 
@@ -50,14 +54,26 @@ jobs:
     needs: windows
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+      - name: ¿Hay token de npm?
+        id: token
+        shell: bash
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -n "$NPM_TOKEN" ]; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "Sin NPM_TOKEN: se omite la publicación en npm." >> "$GITHUB_STEP_SUMMARY"
+          fi
       - name: Publicar extensión
-        if: env.NODE_AUTH_TOKEN != ''
+        if: steps.token.outputs.publish == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish ./extension --access public
