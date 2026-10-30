@@ -40,11 +40,11 @@ desktop/ (Electron)
    powershell -ExecutionPolicy Bypass -File extension\install.ps1
    ```
 
-   Sin clonar, descarga `pi-session-mascot-0.1.0.tgz` del Release, descomprímelo
+   Sin clonar, descarga `pi-session-mascot-0.1.1.tgz` del Release, descomprímelo
    e instálalo como paquete pi:
 
    ```powershell
-   tar -xzf pi-session-mascot-0.1.0.tgz
+   tar -xzf pi-session-mascot-0.1.1.tgz
    pi install ./package
    ```
 
@@ -53,7 +53,7 @@ desktop/ (Electron)
    `session-mascot.json`:
 
    ```json
-   { "shellExe": "C:\\ruta\\SessionMascot-portable-0.1.0.exe" }
+   { "shellExe": "C:\\ruta\\SessionMascot-portable-0.1.1.exe" }
    ```
 
 3. Reinicia pi/gentle-shell: la mascota se abre sola en sesiones interactivas.
