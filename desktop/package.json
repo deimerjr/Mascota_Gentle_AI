@@ -1,6 +1,6 @@
 {
   "name": "pi-session-mascot-shell",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "private": true,
   "description": "Transparent always-on-top Electron shell for the pi session mascot",
   "license": "MIT",
