@@ -21,7 +21,7 @@ este shell (Electron)                   cara: React + CSS + sprites
 ## Descarga
 
 Instalador y portable en
-[Releases](https://github.com/deimerjr/session-mascot/releases).
+[Releases](https://github.com/deimerjr/Mascota_Gentle_AI/releases).
 
 ## Arranque (dev)
 

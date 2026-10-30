@@ -44,7 +44,7 @@ desktop/ (Electron)
 ## Instalación rápida (Windows)
 
 1. Descarga el instalador o el portable desde
-   [Releases](https://github.com/deimerjr/session-mascot/releases).
+   [Releases](https://github.com/deimerjr/Mascota_Gentle_AI/releases).
 2. Instala la extensión. Desde el clon del repo:
 
    ```powershell
@@ -74,7 +74,7 @@ desktop/ (Electron)
 Requisitos: Node.js 20+, npm, pi 1.4+ (y gentle-shell si aplica). Probado en Windows 10/11.
 
 ```powershell
-git clone https://github.com/deimerjr/session-mascot.git
+git clone https://github.com/deimerjr/Mascota_Gentle_AI.git
 cd session-mascot
 npm install
 npm start          # abre la mascota (Electron)
