@@ -1,0 +1,9 @@
+node_modules/
+desktop/renderer/mascot-ui.js
+desktop/test/artifacts/
+dist/
+out/
+*.log
+.env
+.DS_Store
+Thumbs.db

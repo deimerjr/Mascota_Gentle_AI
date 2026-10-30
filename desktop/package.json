@@ -1,0 +1,25 @@
+{
+  "name": "pi-session-mascot-shell",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Transparent always-on-top Electron shell for the pi session mascot",
+  "license": "MIT",
+  "author": "deimerjr",
+  "main": "src/main.js",
+  "scripts": {
+    "build:ui": "node tools/build-ui.mjs",
+    "start": "node tools/start.mjs",
+    "start:raw": "electron .",
+    "test:ui": "node test/ui-render.mjs",
+    "test:e2e": "node test/e2e.mjs"
+  },
+  "devDependencies": {
+    "electron": "40.9.3",
+    "playwright": "1.58.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deimerjr/session-mascot.git",
+    "directory": "desktop"
+  }
+}

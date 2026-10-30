@@ -1,0 +1,24 @@
+{
+  "name": "session-mascot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Desktop session mascot for pi and gentle-shell",
+  "license": "MIT",
+  "author": "deimerjr",
+  "workspaces": [
+    "desktop"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build:ui --workspace desktop",
+    "start": "npm run start --workspace desktop",
+    "test": "npm run test:ui --workspace desktop",
+    "test:e2e": "npm run test:e2e --workspace desktop"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deimerjr/session-mascot.git"
+  }
+}

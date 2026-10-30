@@ -1,0 +1,37 @@
+{
+  "name": "pi-session-mascot",
+  "version": "0.1.0",
+  "description": "Desktop session mascot for pi and gentle-shell: a transparent overlay driven by the session activity.",
+  "type": "module",
+  "license": "MIT",
+  "author": "deimerjr",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "mascot",
+    "desktop",
+    "electron",
+    "gentle-shell"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deimerjr/session-mascot.git",
+    "directory": "extension"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions/session-mascot.ts"
+    ]
+  },
+  "files": [
+    "extensions",
+    "install.ps1",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
