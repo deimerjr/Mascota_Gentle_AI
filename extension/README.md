@@ -23,6 +23,10 @@ pi install ./extension
 La opción C deja la extensión enlazada al repo; necesitas el shell de escritorio
 en `desktop/` (o configurar `shellDir`/`PI_MASCOT_SHELL_DIR`).
 
+Con la app **empaquetada** (Release), usa `shellExe` con la ruta del ejecutable.
+Si instalaste con el instalador NSIS, la extensión detecta
+`%LOCALAPPDATA%\Programs\Session Mascot\Session Mascot.exe` automáticamente.
+
 ## Configuración
 
 Archivo: `<home>/session-mascot.json`, donde `<home>` es
@@ -34,6 +38,8 @@ Archivo: `<home>/session-mascot.json`, donde `<home>` es
   "enabled": true,
   "autoLaunch": true,
   "shellDir": "C:\\ruta\\a\\session-mascot\\desktop",
+  "shellExe": null,
+  "shellArgs": [],
   "layout": null,
   "debug": false
 }

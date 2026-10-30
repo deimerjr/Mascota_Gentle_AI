@@ -18,7 +18,12 @@ este shell (Electron)                   cara: React + CSS + sprites
 - Windows 10/11 (probado). En macOS/Linux el pipe usa socket Unix.
 - Electron (se instala con `npm install` desde la raíz del repo).
 
-## Arranque
+## Descarga
+
+Instalador y portable en
+[Releases](https://github.com/deimerjr/session-mascot/releases).
+
+## Arranque (dev)
 
 Desde la **raíz del repo**:
 

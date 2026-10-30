@@ -57,6 +57,8 @@ foreach ($agentDir in $AgentHome) {
   $config.enabled = if ($null -ne $existing -and $null -ne $existing.enabled) { [bool]$existing.enabled } else { $true }
   $config.autoLaunch = if ($null -ne $existing -and $null -ne $existing.autoLaunch) { [bool]$existing.autoLaunch } else { $true }
   $config.shellDir = $shellDir
+  $config.shellExe = if ($null -ne $existing) { $existing.shellExe } else { $null }
+  $config.shellArgs = if ($null -ne $existing -and $null -ne $existing.shellArgs) { @($existing.shellArgs) } else { @() }
   $config.layout = if ($null -ne $existing) { $existing.layout } else { $null }
   $config.debug = if ($null -ne $existing -and $null -ne $existing.debug) { [bool]$existing.debug } else { $false }
 

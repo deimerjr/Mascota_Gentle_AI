@@ -11,15 +11,64 @@
     "start": "node tools/start.mjs",
     "start:raw": "electron .",
     "test:ui": "node test/ui-render.mjs",
-    "test:e2e": "node test/e2e.mjs"
+    "test:e2e": "node test/e2e.mjs",
+    "dist": "node tools/build-ui.mjs && electron-builder --win --publish never"
   },
   "devDependencies": {
     "electron": "40.9.3",
+    "electron-builder": "^26.18.0",
     "playwright": "1.58.2"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/deimerjr/session-mascot.git",
     "directory": "desktop"
+  },
+  "build": {
+    "appId": "com.deimerjr.sessionmascot",
+    "productName": "Session Mascot",
+    "copyright": "Copyright © 2026 deimerjr",
+    "directories": {
+      "output": "../dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "src/**/*",
+      "renderer/**/*",
+      "vendor/**/*",
+      "assets/icon.png",
+      "assets/icon.ico",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "SessionMascot-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Session Mascot"
+    },
+    "portable": {
+      "artifactName": "SessionMascot-portable-${version}.${ext}"
+    }
   }
 }

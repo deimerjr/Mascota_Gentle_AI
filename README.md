@@ -30,6 +30,26 @@ desktop/ (Electron)
 - El shell sólo pinta y obedece; no abre puertos ni habla con la red.
 - El renderer se genera desde `desktop/ui/mascot-client.js` (la UI original), así que el arte y las animaciones son los mismos.
 
+## Instalación rápida (Windows)
+
+1. Descarga el instalador o el portable desde
+   [Releases](https://github.com/deimerjr/session-mascot/releases).
+2. Instala la extensión en pi/gentle-shell (desde el clon del repo):
+
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File extension\install.ps1
+   ```
+
+   El instalador deja la app en `%LOCALAPPDATA%\Programs\Session Mascot`, que la
+   extensión detecta sola. Para el **portable**, añade `shellExe` en
+   `session-mascot.json`:
+
+   ```json
+   { "shellExe": "C:\\ruta\\SessionMascot-portable-0.1.0.exe" }
+   ```
+
+3. Reinicia pi/gentle-shell: la mascota se abre sola en sesiones interactivas.
+
 ## Instalación (dev)
 
 Requisitos: Node.js 20+, npm, pi 1.4+ (y gentle-shell si aplica). Probado en Windows 10/11.
@@ -89,9 +109,15 @@ En el home de pi en uso: `<home>/session-mascot.json`.
   "enabled": true,
   "autoLaunch": true,
   "shellDir": "C:\\ruta\\a\\session-mascot\\desktop",
+  "shellExe": null,
+  "shellArgs": [],
   "layout": { "x": 24, "y": 998, "scale": 1 },
   "debug": false
 }
+
+- En desarrollo, `shellDir` apunta a `desktop/` y se usa el Electron local.
+- Con la app empaquetada, deja `shellExe` con la ruta del ejecutable (o `null`
+  si usaste el instalador: se detecta en `%LOCALAPPDATA%\Programs\Session Mascot`).
 ```
 
 Variables: `PI_MASCOT_PIPE`, `PI_MASCOT_SHELL_DIR`, `PI_MASCOT_CONFIG`, `PI_MASCOT_LOG_PATH`, `PI_MASCOT_DEBUG=1`.

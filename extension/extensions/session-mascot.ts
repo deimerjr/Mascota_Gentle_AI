@@ -64,6 +64,9 @@ interface Config {
   enabled: boolean;
   autoLaunch: boolean;
   shellDir: string;
+  /** Ruta al ejecutable empaquetado (instalador/portable). Si es null se usa Electron de desarrollo. */
+  shellExe: string | null;
+  shellArgs: string[];
   layout: Layout | null;
   debug: boolean;
 }
@@ -114,6 +117,8 @@ function defaultConfig(): Config {
     enabled: true,
     autoLaunch: true,
     shellDir: defaultShellDir(),
+    shellExe: null,
+    shellArgs: [],
     layout: null,
     debug: process.env.PI_MASCOT_DEBUG === "1",
   };
@@ -142,6 +147,8 @@ function loadConfig(): Config {
       if (typeof parsed.enabled === "boolean") config.enabled = parsed.enabled;
       if (typeof parsed.autoLaunch === "boolean") config.autoLaunch = parsed.autoLaunch;
       if (typeof parsed.shellDir === "string" && parsed.shellDir.trim()) config.shellDir = parsed.shellDir;
+      if (typeof parsed.shellExe === "string" && parsed.shellExe.trim()) config.shellExe = parsed.shellExe;
+      if (Array.isArray(parsed.shellArgs)) config.shellArgs = parsed.shellArgs.map(String);
       if (typeof parsed.debug === "boolean") config.debug = parsed.debug;
       config.layout = normalizeLayout(parsed.layout);
     }
@@ -186,6 +193,53 @@ function electronBinary(shellDir: string): string | null {
   ];
   for (const candidate of candidates) {
     try { if (fs.existsSync(candidate)) return candidate; } catch (error) { /* ignorar */ }
+  }
+  return null;
+}
+
+function installedShellCandidates(): string[] {
+  const candidates: string[] = [];
+  if (process.platform === "win32") {
+    const local = process.env.LOCALAPPDATA;
+    const programFiles = process.env.ProgramFiles;
+    for (const root of [local ? path.join(local, "Programs") : null, programFiles]) {
+      if (!root) continue;
+      candidates.push(path.join(root, "Session Mascot", "Session Mascot.exe"));
+      candidates.push(path.join(root, "session-mascot", "Session Mascot.exe"));
+    }
+  } else if (process.platform === "darwin") {
+    candidates.push("/Applications/Session Mascot.app/Contents/MacOS/Session Mascot");
+  } else {
+    candidates.push("/opt/Session Mascot/session-mascot");
+    candidates.push("/usr/local/bin/session-mascot");
+  }
+  return candidates;
+}
+
+interface ShellLaunch {
+  file: string;
+  args: string[];
+  cwd?: string;
+}
+
+function resolveShellLaunch(config: Config): ShellLaunch | null {
+  if (config.shellExe) {
+    try {
+      if (fs.existsSync(config.shellExe)) {
+        return {
+          file: config.shellExe,
+          args: config.shellArgs || [],
+          cwd: path.dirname(config.shellExe),
+        };
+      }
+    } catch (error) { /* ignorar */ }
+  }
+  const binary = electronBinary(config.shellDir);
+  if (binary) return { file: binary, args: [config.shellDir], cwd: config.shellDir };
+  for (const candidate of installedShellCandidates()) {
+    try {
+      if (fs.existsSync(candidate)) return { file: candidate, args: [], cwd: path.dirname(candidate) };
+    } catch (error) { /* ignorar */ }
   }
   return null;
 }
@@ -456,25 +510,24 @@ class MascotBridge {
 
   spawn(): void {
     if (!this.config.autoLaunch || !this.allowSpawn) return;
-    const shellDir = this.config.shellDir;
-    const binary = electronBinary(shellDir);
-    if (!binary) {
-      this.lastError = "no se encontró electron en " + path.join(shellDir, "node_modules", "electron");
+    const launch = resolveShellLaunch(this.config);
+    if (!launch) {
+      this.lastError = "no se encontró el shell (configura shellExe o PI_MASCOT_SHELL_DIR)";
       log(this.config, this.lastError);
       return;
     }
     try {
       const env: NodeJS.ProcessEnv = { ...process.env, PI_MASCOT_PIPE: pipeName() };
       delete env.ELECTRON_RUN_AS_NODE;
-      const child = spawn(binary, [shellDir], {
-        cwd: shellDir,
+      const child = spawn(launch.file, launch.args, {
+        cwd: launch.cwd,
         detached: true,
         stdio: "ignore",
         windowsHide: true,
         env,
       });
       child.unref();
-      log(this.config, "shell lanzado: " + binary);
+      log(this.config, "shell lanzado: " + launch.file);
     } catch (error) {
       this.lastError = errorText(error);
       log(this.config, "spawn: " + this.lastError);

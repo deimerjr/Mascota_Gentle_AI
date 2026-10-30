@@ -15,7 +15,8 @@
     "build": "npm run build:ui --workspace desktop",
     "start": "npm run start --workspace desktop",
     "test": "npm run test:ui --workspace desktop",
-    "test:e2e": "npm run test:e2e --workspace desktop"
+    "test:e2e": "npm run test:e2e --workspace desktop",
+    "dist": "npm run dist --workspace desktop"
   },
   "repository": {
     "type": "git",
